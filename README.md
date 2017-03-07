@@ -231,3 +231,5 @@ U, p
 
 <h3>1.4 Significance</h3>
 P-value 0.0249 < 0.05, so I reject the null hypothesis and conclude the distribution of the entries is statistically different between rainy and non-rainy days.
+
+<h2>Section 2: Linear Regression</h2>
