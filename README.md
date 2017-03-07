@@ -7,7 +7,7 @@ The ultimate goal of the analysis is to see whether NYC subway ridership is high
 Sample of MTA New York City Subway dataset containing hourly entries and exits to turnstiles(UNIT) by day in the subway system. Weather data from Weather Underground containing features [ barometric pressure, wind speed, temperature, the total amount of precipitation, and the indicidence of rain, fog, and thunder ] is joined to Subway data.
 
 ```python
-#import liberaries we need
+#Import liberaries we need
 import numpy as np
 import pandas as pd
 from ggplot import *
@@ -15,7 +15,7 @@ from ggplot import *
 
 
 ```python
-#load the csv file into Pandas dataframe named turnstile_weather
+#Load the csv file into Pandas dataframe named turnstile_weather
 turnstile_weather = pd.read_csv('../New York Subway/turnstile_data_master_with_weather.csv')
 turnstile_weather.head()
 ```
@@ -234,7 +234,7 @@ P-value 0.0249 < 0.05, so I reject the null hypothesis and conclude the distribu
 
 <h2>Section 2: Linear Regression</h2>
 
-### Feature Selection
+### 2.1 Feature Selection
 
 
 ```python
@@ -457,3 +457,98 @@ features.join(dummy_units).head()
 <p>5 rows × 469 columns</p>
 </div>
 
+### 2.2 Feature Selection Rationale
+
+meantempi is chosen as a feature as temperature is a component of the weather that affects people’s decision making. A given temperature may affect how long and how much effort it takes to clothe in the morning. A person may simply choose to stay indoors due to discomfort with a given temperature.
+
+Hour feature were chosen as it is easily observed how ridership varies with time of day and day of week. A phenomenon supporting the Hour feature is the daily rush hours that mass transit systems and roadways exhibit and accommodate. 
+
+Rain and precipi features indicate if it is rain at that time and how big is the rain. If rain is too heavy, maybe will increase possible rate for people choose subway.
+
+### 2.3 Model
+#### First to stard by normalizing the features in the dataset
+
+
+```python
+#Values
+values = turnstile_weather['ENTRIESn_hourly']
+m = len(values)
+
+#Normalize the features in the dataset
+mu = features.mean()
+sigma = features.std()
+
+if(sigma == 0).any():
+    raise Exception("One or more features had the same value for all samples, and thus could " + \
+                     "not be normalized. Please do not include features with only a single value " + \
+                     "in your model.")
+features = (features - mu) / sigma
+
+#Add a column of 1s (y intercept)
+features['ones'] = np.ones(m)
+```
+
+
+```python
+#Set the inititial coefficient vector theta to a column vector of zeros
+#Convert features and values to numpy arrays
+
+features_array = np.array(features)
+values_array = np.array(values)
+
+#Set values for alpha, number of iterations
+alpha = 0.1
+num_iterations =75
+
+#Initialize theta for gradient descent
+theta_gradient_descent = np.zeros(len(features.columns))
+```
+
+Perform gradient descent, building a cost history over time. 
+During this process, the cost function recomputes the theta value for
+a given number of iterations as a numerical approach to approximating the ideal coefficients to 
+fit the linear regression model.
+
+
+```python
+# Perform gradient descent given a data set with an arbitrary number of features
+cost_history = []
+
+for i in range(num_iterations):
+    predicted_value = np.dot(features_array, theta_gradient_descent)
+    theta_gradient_descent = theta_gradient_descent + alpha/m * np.dot(values_array - predicted_value, features_array)
+    
+    #Compute the cost function given a set of features / values, and the values for our thetas.
+    sum_of_square_errors = np.square(np.dot(features_array, theta_gradient_descent) - values_array).sum()
+    cost = sum_of_square_errors / (2*m)
+    
+    #Add cost to history
+    cost_history.append(cost)
+
+cost_history = pd.Series(cost_history)
+
+#Calculate predictions
+predictions = np.dot(features_array, theta_gradient_descent)
+
+```
+
+
+### Goodness of Fit
+
+After making predictions, use the coefficient of determination(R^2) to see how the model performed
+
+
+```python
+#Compute the coefficient of determination (R^2) given
+# a list of original data points and a list of predicted data points
+sg_data_predictions_diff = np.sum((values - predictions) ** 2)
+mean = np.mean(values)
+sg_data_mean_diff = np.sum((values - mean) ** 2)
+
+r_squared = 1 - sg_data_predictions_diff / sg_data_mean_diff
+
+print 'Calculated R^2 value: {0}'.format(r_squared)
+```
+
+    Calculated R^2 value: 0.45804431403
+ This R^2 value is is rather low, indicating that linear regression model doesn't fit with the data too well. 
