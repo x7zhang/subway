@@ -188,11 +188,11 @@ import matplotlib.pyplot as plt
 
 plt.figure()
 
-non_rainy_data = turnstile_weather[turnstile_weather['rain'] == 0]['ENTRIESn_hourly']
-non_rainy_data.hist(range = [0, 6000], bins = 25, label='No Rain')
+entries_without_rain = turnstile_weather[turnstile_weather['rain'] == 0]['ENTRIESn_hourly']
+entries_with_rain = turnstile_weather[turnstile_weather['rain'] == 1]['ENTRIESn_hourly']
 
-rainy_data = turnstile_weather[turnstile_weather['rain'] == 1]['ENTRIESn_hourly']
-rainy_data.hist(range = [0, 6000], bins = 20, label='Rain')
+entries_without_rain.hist(range = [0, 6000], bins = 25, label='No Rain')
+entries_with_rain.hist(range = [0, 6000], bins = 20, label='Rain')
 
 plt.title('Histogram of ENTRIESn_hourly')
 plt.xlabel('ENTRIESn_hourly')
@@ -204,5 +204,4 @@ plt.figure()
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_21_1.png?raw=true)
 
-
-
+Graph illustrates Subway data is not located in any specific propability distribution. So I choose "Mann-Whitney Test" to analysis it.
