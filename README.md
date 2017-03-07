@@ -198,13 +198,13 @@ plt.legend()
 ```
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_21_1.png?raw=true)
-<h3>Statistic Test Method</h3>
+<h3>1.1 Statistic Test Method</h3>
 "Histogram of ENTRIESn_hourly" graph illustrates Subway data is not located in any specific propability distribution. 
 <br/><strong>"Mann-Whitney U-Test"</strong> is a good method to analysis it.
 <br/>Generally, in this case, I using this test to find the U-statistic and P-value to determine if the two populations(rainy and non-rainy) have equal mean based on the sample means computed from the provided data.
 The P-value used in this test is 0.05 to test for significance.
 
-<h3>Hypothesis</h3>
+<h3>1.2 Hypothesis</h3>
 One-tailed-test
 <p><b>Null Hypothesis:</b> There is no statistically differenece in entries population on rainy VS non-rainy days</p>
 <p><b>Alternative Hypothesis:</b> There is a statistically differenece in entries population on rainy VS non-rainy days</p>
@@ -220,6 +220,8 @@ with_rain_mean = np.mean(with_rain)
 without_rain_mean = np.mean(without_rain)
 U, p = scipy.stats.mannwhitneyu(with_rain, without_rain)
 ```
+
+<h3>1.3 Result</h3>
 ```python
 U, p
 ```
@@ -227,4 +229,5 @@ U, p
     (1924409167.0, 0.024940392294493356)
 
 
+<h3>1.4 Significance</h3>
 P-value 0.0249 < 0.05, so I reject the null hypothesis and conclude the distribution of the entries is statistically different between rainy and non-rainy days.
