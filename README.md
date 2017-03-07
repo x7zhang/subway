@@ -533,7 +533,7 @@ predictions = np.dot(features_array, theta_gradient_descent)
 ```
 
 
-### Goodness of Fit
+### 2.4 Goodness of Fit
 
 After making predictions, use the coefficient of determination(R^2) to see how the model performed
 
@@ -550,5 +550,51 @@ r_squared = 1 - sg_data_predictions_diff / sg_data_mean_diff
 print 'Calculated R^2 value: {0}'.format(r_squared)
 ```
 
-    Calculated R^2 value: 0.45804431403
+    Calculated R^2 value: 0.30804431403
  This R^2 value is is rather low, indicating that linear regression model doesn't fit with the data too well. 
+ 
+<h2>Section 3: Visualization</h2>
+
+### ENTRIESn_hourly for rainy days and non-rainy days
+
+
+
+
+```python
+ggplot(aes(x='ENTRIESn_hourly'), data=turnstile_weather[turnstile_weather['rain'] == 0]) +\
+geom_histogram(fill='blue', binwidth=1000) + ylim(0, 20000) + ggtitle('Non-rainy Day Subway Entries') + ylab('frequency')
+```
+
+
+![png](https://github.com/x7zhang/subway/blob/master/graphs/png-24.png?raw=true)
+
+```python
+ggplot(aes(x='ENTRIESn_hourly'), data=turnstile_weather[turnstile_weather['rain'] == 1]) +\
+geom_histogram(fill='blue', binwidth=1000) + ylim(0, 20000) + ggtitle('Rainy Day Subway Entries') + ylab('frequency')
+```
+
+
+![png](https://github.com/x7zhang/subway/blob/master/graphs/png-23.png?raw=true)
+
+
+```python
+from datetime import datetime
+
+df = turnstile_weather[['DATEn', 'ENTRIESn_hourly', 'rain']]
+df.is_copy = False
+
+# get the weekday as a string
+f = lambda x: datetime.strptime(x, "%Y-%m-%d").strftime('%A')
+
+df['weekday'] = df['DATEn'].apply(f)
+
+
+
+print ggplot(df, aes(x = 'ENTRIESn_hourly', colour='factor(rain)')) \
+        + geom_density() \
+        + xlim(0,2500) \
+        + facet_wrap('weekday')
+```
+
+
+![png](https://github.com/x7zhang/subway/blob/master/graphs/output_27_0.png?raw=true)
