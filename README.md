@@ -205,5 +205,5 @@ plt.figure()
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_21_1.png?raw=true)
 
 "Histogram of ENTRIESn_hourly" graph illustrates Subway data is not located in any specific propability distribution. 
-"Mann-Whitney Test" is a good method to analysis it.
+ "Mann-Whitney Test" is a good method to analysis it.
 
