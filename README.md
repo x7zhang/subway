@@ -183,7 +183,26 @@ turnstile_weather.head()
 
 
 <h2>Section 1: Statitical Test</h2>
+```python
+import matplotlib.pyplot as plt
 
+plt.figure()
+
+non_rainy_data = turnstile_weather[turnstile_weather['rain'] == 0]['ENTRIESn_hourly']
+non_rainy_data.hist(range = [0, 6000], bins = 25, label='No Rain')
+
+rainy_data = turnstile_weather[turnstile_weather['rain'] == 1]['ENTRIESn_hourly']
+rainy_data.hist(range = [0, 6000], bins = 20, label='Rain')
+
+plt.title('Histogram of ENTRIESn_hourly')
+plt.xlabel('ENTRIESn_hourly')
+plt.ylabel('Frequency')
+plt.legend()
+
+plt.figure()
+```
+
+![png](https://github.com/x7zhang/subway/blob/master/graphs/output_21_1.png?raw=true)
 
 
 
