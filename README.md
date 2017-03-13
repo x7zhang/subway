@@ -16,7 +16,7 @@ from ggplot import *
 
 ```python
 #Load the csv file into Pandas dataframe named turnstile_weather
-turnstile_weather = pd.read_csv('../New York Subway/turnstile_data_master_with_weather.csv')
+turnstile_weather = pd.read_csv('../New York Subway/turnstile_weather_v2.csv')
 turnstile_weather.head()
 ```
 
