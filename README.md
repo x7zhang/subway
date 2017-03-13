@@ -235,7 +235,7 @@ P-value 0.0249 < 0.05, so I reject the null hypothesis and conclude the distribu
 <h2>Section 2: Linear Regression</h2>
 
 <h3>2.1 Ordinary Least Squares Using Statsmodels</h3>
-
+I choose OLS for linear regression, then select different features to get highest "rsqured".
 
 ```python
 import statsmodels.api as sm 
@@ -293,6 +293,7 @@ values_and_predictions = pd.DataFrame({'entries':values, 'predictions':predictio
 ggplot(aes(x='entries', y='predictions'), data=values_and_predictions) + geom_point() + geom_abline(slope=1, intercept=0, color='red') +  ggtitle('Predictions vs. Real Entries')
 ```
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_11_1.png?raw=true)
+<br>This model seem not good for data.
 
 <h2>Section 3: Visualization</h2>
 
@@ -339,3 +340,8 @@ print ggplot(df, aes(x = 'ENTRIESn_hourly', colour='factor(rain)')) \
 
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_27_0.png?raw=true)
+<br>
+There is a big differents betweent rainy-day amount and non-rainy-day amount. 33064 for non-rainy datas, and only 9585 for rainy datas. 
+We can find, both plots are right-skewed, we can hypothesis if the days for rainy equals to non-rainy day, their result are quiet similar.
+
+<h2>Section 4: Conclusion</h2>
