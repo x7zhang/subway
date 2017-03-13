@@ -234,325 +234,66 @@ P-value 0.0249 < 0.05, so I reject the null hypothesis and conclude the distribu
 
 <h2>Section 2: Linear Regression</h2>
 
-### 2.1 Feature Selection
+<h3>2.1 Ordinary Least Squares Using Statsmodels</h3>
 
 
 ```python
-#Select Features
-features = turnstile_weather[['rain', 'precipi', 'Hour', 'meantempi']]
-features.head()
-```
+import statsmodels.api as sm 
+
+def linear_regression(features, values):
+    features = sm.add_constant(features)
+    model = sm.OLS(values, features)
+    results = model.fit()
+    return results
 
 
-
-
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>rain</th>
-      <th>precipi</th>
-      <th>Hour</th>
-      <th>meantempi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1</td>
-      <td>60.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>5</td>
-      <td>60.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>9</td>
-      <td>60.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>13</td>
-      <td>60.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>17</td>
-      <td>60.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-The dummy variable(UNIT) taken directly from the turnstile_weather data is used as categorical features for my linear model.
-```python
-dummy_units = pd.get_dummies(turnstile_weather['UNIT'], prefix='unit')
-features.join(dummy_units).head()
-
-```
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>rain</th>
-      <th>precipi</th>
-      <th>Hour</th>
-      <th>meantempi</th>
-      <th>unit_R001</th>
-      <th>unit_R002</th>
-      <th>unit_R003</th>
-      <th>unit_R004</th>
-      <th>unit_R005</th>
-      <th>unit_R006</th>
-      <th>...</th>
-      <th>unit_R543</th>
-      <th>unit_R544</th>
-      <th>unit_R545</th>
-      <th>unit_R546</th>
-      <th>unit_R547</th>
-      <th>unit_R548</th>
-      <th>unit_R549</th>
-      <th>unit_R550</th>
-      <th>unit_R551</th>
-      <th>unit_R552</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1</td>
-      <td>60.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>5</td>
-      <td>60.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>9</td>
-      <td>60.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>13</td>
-      <td>60.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>17</td>
-      <td>60.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 469 columns</p>
-</div>
-
-### 2.2 Feature Selection Rationale
-
-meantempi is chosen as a feature as temperature is a component of the weather that affects people’s decision making. A given temperature may affect how long and how much effort it takes to clothe in the morning. A person may simply choose to stay indoors due to discomfort with a given temperature.
-
-Hour feature were chosen as it is easily observed how ridership varies with time of day and day of week. A phenomenon supporting the Hour feature is the daily rush hours that mass transit systems and roadways exhibit and accommodate. 
-
-Rain and precipi features indicate if it is rain at that time and how big is the rain. If rain is too heavy, maybe will increase possible rate for people choose subway.
-
-### 2.3 Model
-#### First to stard by normalizing the features in the dataset
-
-
-```python
-#Values
+#Given arbitrary number of features to perform linear regression
 values = turnstile_weather['ENTRIESn_hourly']
-m = len(values)
-
-#Normalize the features in the dataset
-mu = features.mean()
-sigma = features.std()
-
-if(sigma == 0).any():
-    raise Exception("One or more features had the same value for all samples, and thus could " + \
-                     "not be normalized. Please do not include features with only a single value " + \
-                     "in your model.")
-features = (features - mu) / sigma
-
-#Add a column of 1s (y intercept)
-features['ones'] = np.ones(m)
+#1
+features = pd.get_dummies(turnstile_weather['UNIT'], prefix='unit')
+print "R square for model that only contain UNIT as feature:", linear_regression(features, values).rsquared
+#2
+features = pd.get_dummies(turnstile_weather['station'], prefix='station')
+print "R square for model that only contain station as feature:", linear_regression(features, values).rsquared
+#3 regression without cond
+numerics = ['precipi', 'pressurei','tempi', 'wspdi',
+            'meanprecipi', 'meanpressurei', 'meantempi', 'meanwspdi']
+dummies = ['fog', 'rain']
+features = turnstile_weather[numerics + dummies]
+dummy_units = pd.get_dummies(turnstile_weather['UNIT'], prefix='unit')
+features = features.join(dummy_units)
+dummy_units = pd.get_dummies(turnstile_weather['datetime'])
+features = features.join(dummy_units)
+print "R square for model that does not contain cond as dummy feature:", linear_regression(features, values).rsquared
+#4 add cond
+dummy_units = pd.get_dummies(turnstile_weather['conds'])
+features = features.join(dummy_units)
+model_results = linear_regression(features, values) # This is my final model, so I would like to keep it
+print "R square for model that add cond as dummy feature:", model_results.rsquared
+#5 add weather_lat and weather_lon
+features.add(turnstile_weather[['weather_lat', 'weather_lon']])
+print "R square for model that add weather_lat and weather_lon:", linear_regression(features, values).rsquared
 ```
+
+    R square for model that only contain UNIT as feature: 0.37521567404
+    R square for model that only contain station as feature: 0.324263055724
+    R square for model that does not contain cond as dummy feature: 0.574630122068
+    R square for model that add cond as dummy feature: 0.575449558588
+    R square for model that add weather_lat and weather_lon: 0.575449558588
+
+
+<h3>2.2 Visulization for the model</h3>
 
 
 ```python
-#Set the inititial coefficient vector theta to a column vector of zeros
-#Convert features and values to numpy arrays
-
-features_array = np.array(features)
-values_array = np.array(values)
-
-#Set values for alpha, number of iterations
-alpha = 0.1
-num_iterations =75
-
-#Initialize theta for gradient descent
-theta_gradient_descent = np.zeros(len(features.columns))
+intercept = model_results.params[0]
+params = model_results.params[1:]
+predictions = intercept + np.dot(features, params)
+values_and_predictions = pd.DataFrame({'entries':values, 'predictions':predictions})
+ggplot(aes(x='entries', y='predictions'), data=values_and_predictions) + geom_point() + geom_abline(slope=1, intercept=0, color='red') +  ggtitle('Predictions vs. Real Entries')
 ```
+![png](https://github.com/x7zhang/subway/blob/master/graphs/output_11_1.png?raw=true)
 
-Perform gradient descent, building a cost history over time. 
-During this process, the cost function recomputes the theta value for
-a given number of iterations as a numerical approach to approximating the ideal coefficients to 
-fit the linear regression model.
-
-
-```python
-# Perform gradient descent given a data set with an arbitrary number of features
-cost_history = []
-
-for i in range(num_iterations):
-    predicted_value = np.dot(features_array, theta_gradient_descent)
-    theta_gradient_descent = theta_gradient_descent + alpha/m * np.dot(values_array - predicted_value, features_array)
-    
-    #Compute the cost function given a set of features / values, and the values for our thetas.
-    sum_of_square_errors = np.square(np.dot(features_array, theta_gradient_descent) - values_array).sum()
-    cost = sum_of_square_errors / (2*m)
-    
-    #Add cost to history
-    cost_history.append(cost)
-
-cost_history = pd.Series(cost_history)
-
-#Calculate predictions
-predictions = np.dot(features_array, theta_gradient_descent)
-
-```
-
-
-### 2.4 Goodness of Fit
-
-After making predictions, use the coefficient of determination(R^2) to see how the model performed
-
-
-```python
-#Compute the coefficient of determination (R^2) given
-# a list of original data points and a list of predicted data points
-sg_data_predictions_diff = np.sum((values - predictions) ** 2)
-mean = np.mean(values)
-sg_data_mean_diff = np.sum((values - mean) ** 2)
-
-r_squared = 1 - sg_data_predictions_diff / sg_data_mean_diff
-
-print 'Calculated R^2 value: {0}'.format(r_squared)
-```
-
-    Calculated R^2 value: 0.30804431403
- This R^2 value is is rather low, indicating that linear regression model doesn't fit with the data too well. 
- 
 <h2>Section 3: Visualization</h2>
 
 ### ENTRIESn_hourly for rainy days and non-rainy days
