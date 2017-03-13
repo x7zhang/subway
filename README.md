@@ -318,7 +318,9 @@ geom_histogram(fill='blue', binwidth=1000) + ylim(0, 20000) + ggtitle('Rainy Day
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/png-23.png?raw=true)
 
-
+<br>
+There is a big differents betweent rainy-day amount and non-rainy-day amount. 33064 for non-rainy datas, and only 9585 for rainy datas. 
+We can find, both plots are right-skewed, we can hypothesis if the days for rainy equals to non-rainy day, maybe their result are quiet similar.
 ```python
 from datetime import datetime
 
@@ -341,7 +343,10 @@ print ggplot(df, aes(x = 'ENTRIESn_hourly', colour='factor(rain)')) \
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_27_0.png?raw=true)
 <br>
-There is a big differents betweent rainy-day amount and non-rainy-day amount. 33064 for non-rainy datas, and only 9585 for rainy datas. 
-We can find, both plots are right-skewed, we can hypothesis if the days for rainy equals to non-rainy day, their result are quiet similar.
-
+Result shows similar in density plot.
 <h2>Section 4: Conclusion</h2>
+From Mann-Whitney U test, we get the results that more people on average do ride the subway in New York when it is raining. However, the different is not enough to say there is any practical differnece or enough to predict higher or lower ridership based on the presence of rain. If I delete "rain" feature, it did have a large impact on rsquares. 
+Due to the rsquares for linear regression is 57.4%, this model is not very good to fit the data.
+
+
+
