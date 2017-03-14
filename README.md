@@ -1,5 +1,5 @@
 <h1>Analyze New Yorker transportation preference base on weather</h1>
-![image](https://github.com/x7zhang/subway/blob/master/graphs/subway-wireless-nyc.jpg?raw=true)
+![Preview](https://github.com/x7zhang/subway/blob/master/graphs/subway-wireless-nyc.jpg?raw=true)
 
 <h2>Introduction</h2>
 The ultimate goal of the analysis is to see whether NYC subway ridership is higher on rainy days vs non-rainy days. Python (NumPy, Pandas, ggplot) is used for the analysis and visualizations respectively.
@@ -179,6 +179,7 @@ turnstile_weather.head()
 
 
 <h2>Section 1: Statitical Test</h2>
+
 ```python
 import matplotlib.pyplot as plt
 %matplotlib inline
@@ -193,11 +194,10 @@ plt.title('Histogram of ENTRIESn_hourly')
 plt.xlabel('ENTRIESn_hourly')
 plt.ylabel('Frequency')
 plt.legend()
-
-
 ```
 
 ![png](https://github.com/x7zhang/subway/blob/master/graphs/output_21_1.png?raw=true)
+
 <h3>1.1 Statistic Test Method</h3>
 "Histogram of ENTRIESn_hourly" graph illustrates Subway data is not located in any specific propability distribution. 
 <br/><strong>"Mann-Whitney U-Test"</strong> is a good method to analysis it.
