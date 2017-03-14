@@ -1,5 +1,5 @@
 <h1>Analyze New Yorker transportation preference base on weather</h1>
-![Preview](https://github.com/x7zhang/subway/blob/master/graphs/subway-wireless-nyc.jpg?raw=true)
+![image](https://github.com/x7zhang/subway/blob/master/graphs/subway-wireless-nyc.jpg?raw=true)
 
 <h2>Introduction</h2>
 The ultimate goal of the analysis is to see whether NYC subway ridership is higher on rainy days vs non-rainy days. Python (NumPy, Pandas, ggplot) is used for the analysis and visualizations respectively.
