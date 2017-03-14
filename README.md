@@ -1,4 +1,4 @@
-#<h1>Analyze New Yorker transportation preference base on weather</h1>
+<h1>Analyze New Yorker transportation preference base on weather</h1>
 ![image](https://github.com/x7zhang/subway/blob/master/graphs/subway-wireless-nyc.jpg?raw=true)
 
 <h2>Introduction</h2>
@@ -321,6 +321,7 @@ geom_histogram(fill='blue', binwidth=1000) + ylim(0, 20000) + ggtitle('Rainy Day
 <br>
 There is a big differents betweent rainy-day amount and non-rainy-day amount. 33064 for non-rainy datas, and only 9585 for rainy datas. 
 We can find, both plots are right-skewed, we can hypothesis if the days for rainy equals to non-rainy day, maybe their result are quiet similar.
+
 ```python
 from datetime import datetime
 
@@ -341,7 +342,7 @@ print ggplot(df, aes(x = 'ENTRIESn_hourly', colour='factor(rain)')) \
 ```
 
 
-![png](https://github.com/x7zhang/subway/blob/master/graphs/output_27_0.png?raw=true)
+![png](https://github.com/x7zhang/subway/blob/master/graphs/output_36_0.png?raw=true)
 <br>
 Result shows similar in density plot.
 <h2>Section 4: Conclusion</h2>
